@@ -34,11 +34,17 @@ async function uploadImage() {
     formData.append("file", file);
 
     try {
-        // 3. Call API
+        // 3. Call API with timeout
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 60000); // 60 second timeout
+        
         const response = await fetch(`${API_URL}/detect/image`, {
             method: "POST",
-            body: formData
+            body: formData,
+            signal: controller.signal
         });
+        
+        clearTimeout(timeoutId);
 
         if (!response.ok) throw new Error(`Server Error: ${response.statusText}`);
 
@@ -59,8 +65,13 @@ async function uploadImage() {
 
     } catch (error) {
         console.error(error);
-        alert("Error: " + error.message);
-        statusText.innerText = "Error occurred.";
+        if (error.name === 'AbortError') {
+            alert("Request timed out. The server may be processing. Please try again.");
+            statusText.innerText = "Request timed out. Please try again.";
+        } else {
+            alert("Error: " + error.message);
+            statusText.innerText = "Error occurred.";
+        }
     }
 }
 
@@ -138,10 +149,16 @@ async function uploadVideo() {
     document.getElementById('videoResultContainer').style.display = 'none';
 
     try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 300000); // 5 minute timeout for video
+        
         const response = await fetch(`${API_URL}/track/video`, {
             method: "POST",
-            body: formData
+            body: formData,
+            signal: controller.signal
         });
+        
+        clearTimeout(timeoutId);
 
         if (!response.ok) throw new Error("Video processing failed");
 
@@ -155,7 +172,11 @@ async function uploadVideo() {
         document.getElementById('videoResultContainer').style.display = 'block';
     } catch (error) {
         console.error(error);
-        alert("Error processing video: " + error.message);
+        if (error.name === 'AbortError') {
+            alert("Video processing timed out. Please try with a shorter video.");
+        } else {
+            alert("Error processing video: " + error.message);
+        }
         document.getElementById('videoLoading').style.display = 'none';
     }
 }
