@@ -1,0 +1,98 @@
+:root {
+    --primary: #6366f1;
+    --bg: #0f172a;
+    --card: #1e293b;
+    --text: #f8fafc;
+}
+
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: var(--bg);
+    color: var(--text);
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    width: 100%;
+    max-width: 800px;
+    background: var(--card);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+h1 { text-align: center; margin-bottom: 30px; }
+
+.tabs { display: flex; gap: 10px; margin-bottom: 20px; }
+.tab-btn {
+    flex: 1;
+    padding: 12px;
+    background: #334155;
+    border: none;
+    color: white;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+.tab-btn.active { background: var(--primary); font-weight: bold; }
+
+.content-section { display: none; }
+.content-section.active { display: block; }
+
+.upload-box {
+    border: 2px dashed #475569;
+    padding: 20px;
+    text-align: center;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+button {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+button:hover { opacity: 0.9; }
+
+/* Image Result Styling */
+.canvas-wrapper {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    border-radius: 8px;
+}
+
+#uploadedImage {
+    width: 100%;
+    display: block;
+}
+
+#detectionCanvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* Loading Spinner */
+.spinner {
+    border: 4px solid rgba(255,255,255,0.1);
+    border-left-color: var(--primary);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin: 0 auto;
+}
+
+@keyframes spin { 100% { transform: rotate(360deg); } }

@@ -1,0 +1,20 @@
+{
+    "filename": "Car-pass-image.jpg",
+    "timestamp": 1768503182,
+    "car_count": 1,
+    "image_width": 456,
+    "image_height": 287,
+    "detections": [
+        {
+            "class_id": 2,
+            "class_name": "car",
+            "confidence": 0.809,
+            "bbox": {
+                "x1": 18.648113250732422,
+                "y1": 31.528972625732422,
+                "x2": 449.6758117675781,
+                "y2": 252.73341369628906
+            }
+        }
+    ]
+}

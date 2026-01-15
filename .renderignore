@@ -1,0 +1,41 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+ENV/
+env/
+
+# Results and temp files
+results/
+temp_input/
+temp_output/
+runs/
+
+# Test images (keep model files)
+*.jpeg
+*.jpg
+*.png
+*.webp
+*.avif
+*.mp4
+*.avi
+*.mov
+*.mkv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Git
+.git/
+.gitignore

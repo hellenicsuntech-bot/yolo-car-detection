@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Verification API - Developer Documentation</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .api-section {
+            background: var(--card);
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .endpoint {
+            font-family: 'Courier New', monospace;
+            background: #1a1a2e;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid var(--primary);
+        }
+        .method {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        code {
+            background: #1a1a2e;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: #00ff88;
+        }
+        pre {
+            background: #1a1a2e;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            border: 1px solid #334155;
+        }
+        pre code {
+            background: none;
+            padding: 0;
+            color: #f8fafc;
+        }
+        .param-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        .param-table th,
+        .param-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #334155;
+        }
+        .param-table th {
+            background: #334155;
+            font-weight: bold;
+        }
+        .response-example {
+            background: #0a1929;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        .status-approved {
+            background: #10b981;
+            color: white;
+        }
+        .status-failed {
+            background: #ef4444;
+            color: white;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: var(--primary);
+            text-decoration: none;
+            padding: 8px 16px;
+            border: 1px solid var(--primary);
+            border-radius: 6px;
+            transition: 0.3s;
+        }
+        .back-link:hover {
+            background: var(--primary);
+            color: white;
+        }
+        h2 {
+            color: var(--primary);
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        h3 {
+            color: #cbd5e1;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+        .info-box {
+            background: #1e3a5f;
+            border-left: 4px solid #3b82f6;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-link">← Back to Car Detector</a>
+        
+        <div class="api-section">
+            <h1>🚗 Car Verification API Documentation</h1>
+            <p>Simple API to verify if an image contains a car based on confidence threshold.</p>
+        </div>
+
+        <div class="api-section">
+            <h2>Endpoint Overview</h2>
+            <div class="endpoint">
+                <span class="method">POST</span>
+                <code>http://127.0.0.1:8000/verify/car</code>
+            </div>
+            
+            <div class="info-box">
+                <strong>Base URL:</strong> <code id="baseUrl">http://127.0.0.1:8000</code><br>
+                <strong>Endpoint:</strong> <code>/verify/car</code><br>
+                <strong>Method:</strong> <code>POST</code><br>
+                <strong>Content-Type:</strong> <code>multipart/form-data</code>
+            </div>
+            <script>
+                // Auto-update base URL in documentation
+                document.getElementById('baseUrl').textContent = window.location.origin;
+            </script>
+        </div>
+
+        <div class="api-section">
+            <h2>Request Parameters</h2>
+            <table class="param-table">
+                <thead>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Type</th>
+                        <th>Required</th>
+                        <th>Default</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>file</code></td>
+                        <td>File (multipart/form-data)</td>
+                        <td>✅ Yes</td>
+                        <td>-</td>
+                        <td>Image file to verify (JPG, PNG, WEBP, etc.)</td>
+                    </tr>
+                    <tr>
+                        <td><code>confidence_threshold</code></td>
+                        <td>Float</td>
+                        <td>❌ No</td>
+                        <td><code>0.5</code></td>
+                        <td>Minimum confidence required (0.0 to 1.0). If detected confidence ≥ threshold, status is "approved"</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="api-section">
+            <h2>Response Format</h2>
+            <p>The API returns a JSON object with the following structure:</p>
+            
+            <div class="response-example">
+                <h3>Success Response (200 OK)</h3>
+                <pre><code>{
+  "is_car": true,
+  "status": "approved",
+  "confidence": 0.8542,
+  "detections_count": 2,
+  "confidence_threshold": 0.5,
+  "message": "Car detected with 85.4% confidence. Status: APPROVED (threshold: 50%)"
+}</code></pre>
+            </div>
+
+            <table class="param-table">
+                <thead>
+                    <tr>
+                        <th>Field</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>is_car</code></td>
+                        <td>Boolean</td>
+                        <td><code>true</code> if car detected, <code>false</code> otherwise</td>
+                    </tr>
+                    <tr>
+                        <td><code>status</code></td>
+                        <td>String</td>
+                        <td>Either <code>"approved"</code> <span class="status-badge status-approved">APPROVED</span> or <code>"failed"</code> <span class="status-badge status-failed">FAILED</span></td>
+                    </tr>
+                    <tr>
+                        <td><code>confidence</code></td>
+                        <td>Float</td>
+                        <td>Highest confidence score from detections (0.0 to 1.0). 0.0 if no car detected.</td>
+                    </tr>
+                    <tr>
+                        <td><code>detections_count</code></td>
+                        <td>Integer</td>
+                        <td>Number of car detections found in the image</td>
+                    </tr>
+                    <tr>
+                        <td><code>confidence_threshold</code></td>
+                        <td>Float</td>
+                        <td>The threshold value used for verification (echoed back)</td>
+                    </tr>
+                    <tr>
+                        <td><code>message</code></td>
+                        <td>String</td>
+                        <td>Human-readable status message</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="response-example">
+                <h3>Example: No Car Detected</h3>
+                <pre><code>{
+  "is_car": false,
+  "status": "failed",
+  "confidence": 0.0,
+  "detections_count": 0,
+  "confidence_threshold": 0.5,
+  "message": "No car detected in the image."
+}</code></pre>
+            </div>
+
+            <div class="response-example">
+                <h3>Example: Car Detected but Below Threshold</h3>
+                <pre><code>{
+  "is_car": true,
+  "status": "failed",
+  "confidence": 0.4231,
+  "detections_count": 1,
+  "confidence_threshold": 0.5,
+  "message": "Car detected with 42.3% confidence. Status: FAILED (threshold: 50%)"
+}</code></pre>
+            </div>
+        </div>
+
+        <div class="api-section">
+            <h2>Code Examples</h2>
+
+            <h3>1. cURL</h3>
+            <pre><code id="curlExample"># Default threshold (0.5)
+curl -X POST "http://127.0.0.1:8000/verify/car" \
+  -F "file=@/path/to/image.jpg"
+
+# Custom threshold (0.7 = 70%)
+curl -X POST "http://127.0.0.1:8000/verify/car" \
+  -F "file=@/path/to/image.jpg" \
+  -F "confidence_threshold=0.7"</code></pre>
+            <script>
+                // Update curl examples with current URL
+                const baseUrl = window.location.origin;
+                document.getElementById('curlExample').textContent = `# Default threshold (0.5)
+curl -X POST "${baseUrl}/verify/car" \\
+  -F "file=@/path/to/image.jpg"
+
+# Custom threshold (0.7 = 70%)
+curl -X POST "${baseUrl}/verify/car" \\
+  -F "file=@/path/to/image.jpg" \\
+  -F "confidence_threshold=0.7"`;
+            </script>
+
+            <h3>2. JavaScript (Fetch API)</h3>
+            <pre><code id="jsExample">async function verifyCar(imageFile, threshold = 0.5) {
+  const formData = new FormData();
+  formData.append('file', imageFile);
+  formData.append('confidence_threshold', threshold.toString());
+
+  try {
+    const response = await fetch('/verify/car', {
+      method: 'POST',
+      body: formData
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const result = await response.json();
+    console.log('Result:', result);
+    
+    if (result.status === 'approved') {
+      console.log('✅ Car verified!');
+    } else {
+      console.log('❌ Car verification failed');
+    }
+    
+    return result;
+  } catch (error) {
+    console.error('Error:', error);
+    throw error;
+  }
+}
+
+// Usage
+const fileInput = document.querySelector('input[type="file"]');
+fileInput.addEventListener('change', async (e) => {
+  const file = e.target.files[0];
+  const result = await verifyCar(file, 0.6); // 60% threshold
+  console.log(result);
+});</code></pre>
+            <script>
+                // Update JavaScript example
+                const baseUrl = window.location.origin;
+                const jsCode = document.getElementById('jsExample').textContent;
+                document.getElementById('jsExample').textContent = jsCode.replace("'http://127.0.0.1:8000/verify/car'", `'${baseUrl}/verify/car'`);
+            </script>
+
+            <h3>3. Python (requests)</h3>
+            <pre><code id="pythonExample">import requests
+
+def verify_car(image_path, confidence_threshold=0.5, base_url="http://127.0.0.1:8000"):
+    """
+    Verify if an image contains a car.
+    
+    Args:
+        image_path: Path to the image file
+        confidence_threshold: Minimum confidence (0.0-1.0)
+        base_url: API base URL (default: http://127.0.0.1:8000)
+    
+    Returns:
+        dict: API response with verification results
+    """
+    url = f"{base_url}/verify/car"
+    
+    with open(image_path, 'rb') as f:
+        files = {'file': f}
+        data = {'confidence_threshold': confidence_threshold}
+        
+        response = requests.post(url, files=files, data=data)
+        response.raise_for_status()
+        
+        return response.json()
+
+# Usage
+result = verify_car('car_image.jpg', confidence_threshold=0.6)
+print(f"Status: {result['status']}")
+print(f"Confidence: {result['confidence']*100:.1f}%")
+print(f"Message: {result['message']}")
+
+if result['status'] == 'approved':
+    print("✅ Car verification passed!")
+else:
+    print("❌ Car verification failed")</code></pre>
+
+            <h3>4. Python (httpx - async)</h3>
+            <pre><code id="pythonAsyncExample">import httpx
+import asyncio
+
+async def verify_car_async(image_path, confidence_threshold=0.5, base_url="http://127.0.0.1:8000"):
+    url = f"{base_url}/verify/car"
+    
+    async with httpx.AsyncClient() as client:
+        with open(image_path, 'rb') as f:
+            files = {'file': f}
+            data = {'confidence_threshold': confidence_threshold}
+            
+            response = await client.post(url, files=files, data=data)
+            response.raise_for_status()
+            
+            return response.json()
+
+# Usage
+result = asyncio.run(verify_car_async('car_image.jpg', 0.7))
+print(result)</code></pre>
+
+            <h3>5. Node.js (axios)</h3>
+            <pre><code id="nodeExample">const axios = require('axios');
+const FormData = require('form-data');
+const fs = require('fs');
+
+async function verifyCar(imagePath, threshold = 0.5, baseUrl = 'http://127.0.0.1:8000') {
+  const form = new FormData();
+  form.append('file', fs.createReadStream(imagePath));
+  form.append('confidence_threshold', threshold.toString());
+
+  try {
+    const response = await axios.post(
+      `${baseUrl}/verify/car`,
+      form,
+      {
+        headers: form.getHeaders()
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error('Error:', error.response?.data || error.message);
+    throw error;
+  }
+}
+
+// Usage
+verifyCar('./car_image.jpg', 0.6)
+  .then(result => {
+    console.log('Status:', result.status);
+    console.log('Confidence:', (result.confidence * 100).toFixed(1) + '%');
+    if (result.status === 'approved') {
+      console.log('✅ Car verified!');
+    }
+  })
+  .catch(console.error);</code></pre>
+        </div>
+
+        <div class="api-section">
+            <h2>Error Responses</h2>
+            
+            <h3>400 Bad Request</h3>
+            <pre><code>{
+  "detail": "Invalid image. Error: ..."
+}</code></pre>
+            <p>Occurs when the uploaded file is not a valid image.</p>
+
+            <h3>400 Bad Request - Invalid Threshold</h3>
+            <pre><code>{
+  "detail": "confidence_threshold must be between 0.0 and 1.0"
+}</code></pre>
+            <p>Occurs when confidence_threshold is outside the valid range.</p>
+        </div>
+
+        <div class="api-section">
+            <h2>How It Works</h2>
+            <ol>
+                <li>Upload an image file via <code>multipart/form-data</code></li>
+                <li>The API uses YOLO11 model to detect cars in the image</li>
+                <li>If cars are detected, it finds the highest confidence score</li>
+                <li>Compares the confidence against your threshold:
+                    <ul>
+                        <li>If <code>confidence ≥ threshold</code> → Status: <code>"approved"</code></li>
+                        <li>If <code>confidence < threshold</code> → Status: <code>"failed"</code></li>
+                        <li>If no car detected → Status: <code>"failed"</code></li>
+                    </ul>
+                </li>
+                <li>Returns JSON response with verification results</li>
+            </ol>
+        </div>
+
+        <div class="api-section">
+            <h2>Best Practices</h2>
+            <ul>
+                <li><strong>Threshold Selection:</strong> 
+                    <ul>
+                        <li>Use <code>0.5</code> (50%) for balanced accuracy</li>
+                        <li>Use <code>0.7</code> (70%) for stricter verification</li>
+                        <li>Use <code>0.3</code> (30%) for more lenient verification</li>
+                    </ul>
+                </li>
+                <li><strong>Image Quality:</strong> Higher resolution images generally yield better confidence scores</li>
+                <li><strong>Error Handling:</strong> Always check the <code>status</code> field rather than just <code>is_car</code></li>
+                <li><strong>Timeout:</strong> Set appropriate timeout values (recommended: 30-60 seconds)</li>
+            </ul>
+        </div>
+
+        <div class="api-section">
+            <h2>Testing</h2>
+            <p>You can test the API using the interactive Swagger documentation:</p>
+            <p><a id="swaggerLink" href="/docs" target="_blank" style="color: var(--primary);">/docs</a></p>
+            <p>Or use the main application interface:</p>
+            <p><a href="/" style="color: var(--primary);">Car Detector & Tracker</a></p>
+            <script>
+                document.getElementById('swaggerLink').href = window.location.origin + '/docs';
+                document.getElementById('swaggerLink').textContent = window.location.origin + '/docs';
+            </script>
+        </div>
+    </div>
+</body>
+</html>

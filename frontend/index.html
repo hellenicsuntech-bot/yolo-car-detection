@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Detector & Tracker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+        <h1>🚗 YOLO Car Intelligence</h1>
+        <div style="text-align: center; margin-bottom: 20px;">
+            <a href="docs.html" style="color: var(--primary); text-decoration: none; padding: 8px 16px; border: 1px solid var(--primary); border-radius: 6px; display: inline-block;">📚 API Documentation</a>
+        </div>
+        
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('image')">Image Detection</button>
+            <button class="tab-btn" onclick="switchTab('video')">Video Tracking</button>
+        </div>
+
+        <div id="image-section" class="content-section active">
+            <div class="upload-box">
+                <input type="file" id="imageInput" accept="image/*">
+                <button type="button" onclick="uploadImage()">Detect Cars</button>
+            </div>
+            
+            <div class="result-display" id="imageResultContainer" style="display:none;">
+                <div class="canvas-wrapper">
+                    <img id="uploadedImage" src="" alt="Uploaded Image">
+                    <canvas id="detectionCanvas"></canvas>
+                </div>
+                <p id="imageStatus"></p>
+            </div>
+        </div>
+
+        <div id="video-section" class="content-section">
+            <div class="upload-box">
+                <input type="file" id="videoInput" accept="video/*">
+                <button onclick="uploadVideo()">Track Cars</button>
+            </div>
+            
+            <div class="loading" id="videoLoading" style="display:none;">
+                <div class="spinner"></div>
+                <p>Processing video (this may take a while)...</p>
+            </div>
+
+            <div class="result-display" id="videoResultContainer" style="display:none;">
+                <video id="processedVideo" controls width="100%"></video>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

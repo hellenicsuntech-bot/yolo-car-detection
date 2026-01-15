@@ -1,0 +1,20 @@
+{
+    "filename": "Screenshot 2026-01-15 at 6.58.01\u202fPM.png",
+    "timestamp": 1768503527,
+    "car_count": 1,
+    "image_width": 848,
+    "image_height": 886,
+    "detections": [
+        {
+            "class_id": 2,
+            "class_name": "car",
+            "confidence": 0.6997,
+            "bbox": {
+                "x1": 1.9771957397460938,
+                "y1": 191.43519592285156,
+                "x2": 848.0,
+                "y2": 832.2327270507812
+            }
+        }
+    ]
+}
